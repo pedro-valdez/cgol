@@ -9,8 +9,6 @@ uniform vec2 normalRes;
 void main() {
   vec2 uv = vTexCoord;
   
-  uv.y = 1.0 - uv.y;
-  
   vec4 col = texture2D(tex, uv);
   float a = col.r;
   
