@@ -1,22 +1,35 @@
 let cgol, pgA, pgB;
-const UNIVERSE = { WIDTH: 256, HEIGHT: 256 };
+const UNIVERSE = { WIDTH: 512, HEIGHT: 512 };
 const density = 50;
+let destinationX, destinationY, destinationWidth, destinationHeight
+let sourceX, sourceY, sourceWidth, sourceHeight
+let panningSpeed = 1
+let zoom = 1
+let zoomSpeed = 0.01
 
 window.preload = function () {
   cgol = loadShader("src/cgol.vert", "src/cgol.frag");
 }
 
 window.setup = function () {
-  createCanvas(256, 256, WEBGL);
+  createCanvas(257, 145);
+  background('red')
+  noSmooth()
 
   pgA = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL);
   pgB = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL);
 
   bigBang(pgA, density)
+  sourceX = sourceY = 0
 }
 
 window.draw = function () {
-  image(pgA.get(), -width / 2, -height / 2);
+  controls()
+  destinationX = destinationY = 0
+  const majorAxis = max(width, height)
+  destinationWidth = destinationHeight = majorAxis
+  sourceWidth = sourceHeight = UNIVERSE.WIDTH * zoom
+  image(pgA.get(), destinationX, destinationY, destinationWidth, destinationHeight, sourceX, sourceY, sourceWidth, sourceHeight);
   step()
 }
 
@@ -56,4 +69,27 @@ function bigBang(pg, density) {
     pg.pixels[j + 3] = 255;
   }
   pg.updatePixels();
+}
+
+function controls() {
+  if (keyIsDown(87)) {
+    sourceY -= panningSpeed
+  }
+  if (keyIsDown(65)) {
+    sourceX -= panningSpeed
+  }
+  if (keyIsDown(83)) {
+    sourceY += panningSpeed
+  }
+  if (keyIsDown(68)) {
+    sourceX += panningSpeed
+  }
+
+  if (keyIsDown(90)) {
+    zoom += zoomSpeed
+  }
+  if (keyIsDown(88)) {
+    zoom -= zoomSpeed
+  }
+  zoom = constrain(zoom, 0.05, 1)
 }
