@@ -7,7 +7,7 @@ let panningSpeed = 1
 let zoom = 1
 let zoomSpeed = 0.01
 
-const container = document.querySelector('.cgol-container')
+const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
 const pgACanvas = document.querySelector('#ping')
 const pgBCanvas = document.querySelector('#pong')
