@@ -7,17 +7,21 @@ let panningSpeed = 1
 let zoom = 1
 let zoomSpeed = 0.01
 
+const container = document.querySelector('#cgol-container')
+const cgolCanvas = document.querySelector('#cgol')
+const pgACanvas = document.querySelector('#ping')
+const pgBCanvas = document.querySelector('#pong')
+
 window.preload = function () {
   cgol = loadShader("src/cgol.vert", "src/cgol.frag");
 }
 
 window.setup = function () {
-  createCanvas(257, 145);
-  background('red')
+  createCanvas(container.clientWidth, container.clientHeight, undefined, cgolCanvas)
   noSmooth()
 
-  pgA = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL);
-  pgB = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL);
+  pgA = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL, pgACanvas);
+  pgB = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL, pgBCanvas);
 
   bigBang(pgA, density)
   sourceX = sourceY = 0
@@ -31,6 +35,10 @@ window.draw = function () {
   sourceWidth = sourceHeight = UNIVERSE.WIDTH * zoom
   image(pgA.get(), destinationX, destinationY, destinationWidth, destinationHeight, sourceX, sourceY, sourceWidth, sourceHeight);
   step()
+}
+
+window.windowResized = function () {
+  resizeCanvas(container.clientWidth, container.clientHeight)
 }
 
 function step() {
