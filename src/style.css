@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+}
+
+.cgol-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+#cgol {
+  display: block;
+}

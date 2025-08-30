@@ -11,12 +11,17 @@ const cgolCanvas = document.querySelector('#cgol')
 const pgACanvas = document.querySelector('#ping')
 const pgBCanvas = document.querySelector('#pong')
 
+function getCgolContainer() {
+  return document.querySelector('.cgol-container')
+}
+
 window.preload = function () {
   cgol = loadShader("src/cgol.vert", "src/cgol.frag");
 }
 
 window.setup = function () {
-  createCanvas(257, 145, undefined, cgolCanvas);
+  const container = getCgolContainer()
+  createCanvas(container.clientWidth, container.clientHeight, undefined, cgolCanvas)
   noSmooth()
 
   pgA = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL, pgACanvas);
@@ -34,6 +39,11 @@ window.draw = function () {
   sourceWidth = sourceHeight = UNIVERSE.WIDTH * zoom
   image(pgA.get(), destinationX, destinationY, destinationWidth, destinationHeight, sourceX, sourceY, sourceWidth, sourceHeight);
   step()
+}
+
+window.windowResized = function () {
+  const container = getCgolContainer()
+  resizeCanvas(container.clientWidth, container.clientHeight)
 }
 
 function step() {
