@@ -3,7 +3,7 @@ const UNIVERSE = { WIDTH: 1024, HEIGHT: 1024 };
 const density = 50;
 let panningX = 0, panningY = 0, panningSpeed = 1
 let zoom = 1, zoomSpeed = 0.01
-let observableWidth, observableHeight
+let observableWidth, observableHeight, observableMin = 64
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
@@ -97,6 +97,6 @@ function controls() {
   if (keyIsDown(88)) {
     zoom -= zoomSpeed
   }
-  zoom = constrain(zoom, 0.05, 1)
+  zoom = constrain(zoom, observableMin / min(UNIVERSE.WIDTH, UNIVERSE.HEIGHT), 1)
 }
 
