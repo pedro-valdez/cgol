@@ -22,6 +22,9 @@ window.setup = function () {
   pgB = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL, pgBCanvas);
 
   bigBang(pgA, density)
+
+  observableWidth = UNIVERSE.WIDTH * zoom
+  observableHeight = observableWidth * (height / width)
 }
 
 window.draw = function () {
@@ -90,6 +93,8 @@ function controls() {
   if (keyIsDown(68)) {
     panningX += panningSpeed
   }
+  panningX = constrain(panningX, 0, UNIVERSE.WIDTH - observableWidth)
+  panningY = constrain(panningY, 0, UNIVERSE.HEIGHT - observableHeight)
 
   if (keyIsDown(90)) {
     zoom += zoomSpeed
