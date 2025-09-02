@@ -1,9 +1,7 @@
-let cgol, pgA, pgB;
-const UNIVERSE = { WIDTH: 1024, HEIGHT: 1024 };
+import ObservableViewport from "./Viewport"
+
+let cgol, pgA, pgB, viewport;
 const density = 50;
-let panningX = 0, panningY = 0, panningSpeed = 1
-let zoom = 1, zoomSpeed = 0.01
-let observableWidth, observableHeight, observableMin = 64
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
@@ -18,22 +16,18 @@ window.setup = function () {
   createCanvas(container.clientWidth, container.clientHeight, undefined, cgolCanvas)
   noSmooth()
 
-  pgA = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL, pgACanvas);
-  pgB = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL, pgBCanvas);
+  viewport = new ObservableViewport(width, height)
+
+  pgA = createGraphics(viewport.width, viewport.height, WEBGL, pgACanvas);
+  pgB = createGraphics(viewport.width, viewport.height, WEBGL, pgBCanvas);
 
   bigBang(pgA, density)
-
-  observableWidth = UNIVERSE.WIDTH * zoom
-  observableHeight = observableWidth * (height / width)
 }
 
 window.draw = function () {
   controls()
 
-  observableWidth = UNIVERSE.WIDTH * zoom
-  observableHeight = observableWidth * (height / width)
-
-  image(pgA.get(), 0, 0, width, height, panningX, panningY, observableWidth, observableHeight);
+  image(pgA.get(), 0, 0, width, height, viewport.panning.x, viewport.panning.y, viewport.observable.x, viewport.observable.y);
 
   step()
 }
@@ -60,7 +54,7 @@ function copyCgolToContext(pgA, pgB) {
 
 function applyCgol() {
   pgB.noStroke()
-  pgB.plane(UNIVERSE.WIDTH, UNIVERSE.HEIGHT);
+  pgB.plane(viewport.width, viewport.height);
 
   let temp = pgA;
   pgA = pgB;
@@ -82,26 +76,23 @@ function bigBang(pg, density) {
 
 function controls() {
   if (keyIsDown(87)) {
-    panningY -= panningSpeed
+    viewport.pan(ObservableViewport.PAN.UP, deltaTime)
   }
   if (keyIsDown(65)) {
-    panningX -= panningSpeed
+    viewport.pan(ObservableViewport.PAN.LEFT, deltaTime)
   }
   if (keyIsDown(83)) {
-    panningY += panningSpeed
+    viewport.pan(ObservableViewport.PAN.DOWN, deltaTime)
   }
   if (keyIsDown(68)) {
-    panningX += panningSpeed
+    viewport.pan(ObservableViewport.PAN.RIGHT, deltaTime)
   }
-  panningX = constrain(panningX, 0, UNIVERSE.WIDTH - observableWidth)
-  panningY = constrain(panningY, 0, UNIVERSE.HEIGHT - observableHeight)
 
   if (keyIsDown(90)) {
-    zoom += zoomSpeed
+    viewport.zoom(ObservableViewport.ZOOM.OUT, deltaTime)
   }
   if (keyIsDown(88)) {
-    zoom -= zoomSpeed
+    viewport.zoom(ObservableViewport.ZOOM.IN, deltaTime)
   }
-  zoom = constrain(zoom, observableMin / min(UNIVERSE.WIDTH, UNIVERSE.HEIGHT), 1)
 }
 
