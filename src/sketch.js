@@ -2,6 +2,7 @@ import ObservableViewport from "./Viewport"
 
 let cgol, pgA, pgB, viewport;
 const density = 50;
+let pause = false
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
@@ -29,11 +30,19 @@ window.draw = function () {
 
   image(pgA.get(), 0, 0, width, height, viewport.panning.x, viewport.panning.y, viewport.observable.x, viewport.observable.y);
 
-  step()
+  if (!pause) {
+    step()
+  }
 }
 
 window.windowResized = function () {
   resizeCanvas(container.clientWidth, container.clientHeight)
+}
+
+window.keyTyped = function () {
+  if (key === ' ') {
+    pause = !pause
+  }
 }
 
 function step() {
