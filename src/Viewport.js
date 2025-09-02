@@ -30,18 +30,27 @@ class ObservableViewport {
     this.observable = createVector(ratioX, ratioY).normalize().mult(this.zoomScalar * this.minorAxisLength)
   }
 
-  // TODO: What if you are zoomed in, panned all to the right, then zoom out?
   zoom(direction, dt) {
     this.zoomScalar += direction * this.zoomSpeed * (dt / 1000)
     this.zoomScalar = constrain(this.zoomScalar, this.minimumZoomScalar, 1)
 
-    this.observable.normalize().mult(this.zoomScalar * this.minorAxisLength)
+    const newObservable = p5.Vector.normalize(this.observable).mult(this.zoomScalar * this.minorAxisLength)
+    const diff = p5.Vector.sub(this.observable, newObservable).div(2)
+
+    this.observable = newObservable
+
+    this.panning.add(diff)
+    this.constrainPanning()
   }
 
   pan(direction, dt) {
     const unitBasis = createVector(...direction)
     this.panning.add(unitBasis.mult(this.panningSpeed * dt))
 
+    this.constrainPanning()
+  }
+
+  constrainPanning() {
     this.panning.x = constrain(this.panning.x, 0, this.width - this.observable.x)
     this.panning.y = constrain(this.panning.y, 0, this.height - this.observable.y)
   }
