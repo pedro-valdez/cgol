@@ -1,11 +1,7 @@
-let cgol, pgA, pgB;
-const UNIVERSE = { WIDTH: 512, HEIGHT: 512 };
+import ObservableViewport from "./Viewport"
+
+let cgol, pgA, pgB, viewport;
 const density = 50;
-let destinationX, destinationY, destinationWidth, destinationHeight
-let sourceX, sourceY, sourceWidth, sourceHeight
-let panningSpeed = 1
-let zoom = 1
-let zoomSpeed = 0.01
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
@@ -20,20 +16,19 @@ window.setup = function () {
   createCanvas(container.clientWidth, container.clientHeight, undefined, cgolCanvas)
   noSmooth()
 
-  pgA = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL, pgACanvas);
-  pgB = createGraphics(UNIVERSE.WIDTH, UNIVERSE.HEIGHT, WEBGL, pgBCanvas);
+  viewport = new ObservableViewport(width, height)
+
+  pgA = createGraphics(viewport.width, viewport.height, WEBGL, pgACanvas);
+  pgB = createGraphics(viewport.width, viewport.height, WEBGL, pgBCanvas);
 
   bigBang(pgA, density)
-  sourceX = sourceY = 0
 }
 
 window.draw = function () {
   controls()
-  destinationX = destinationY = 0
-  const majorAxis = max(width, height)
-  destinationWidth = destinationHeight = majorAxis
-  sourceWidth = sourceHeight = UNIVERSE.WIDTH * zoom
-  image(pgA.get(), destinationX, destinationY, destinationWidth, destinationHeight, sourceX, sourceY, sourceWidth, sourceHeight);
+
+  image(pgA.get(), 0, 0, width, height, viewport.panning.x, viewport.panning.y, viewport.observable.x, viewport.observable.y);
+
   step()
 }
 
@@ -59,7 +54,7 @@ function copyCgolToContext(pgA, pgB) {
 
 function applyCgol() {
   pgB.noStroke()
-  pgB.plane(UNIVERSE.WIDTH, UNIVERSE.HEIGHT);
+  pgB.plane(viewport.width, viewport.height);
 
   let temp = pgA;
   pgA = pgB;
@@ -81,23 +76,23 @@ function bigBang(pg, density) {
 
 function controls() {
   if (keyIsDown(87)) {
-    sourceY -= panningSpeed
+    viewport.pan(ObservableViewport.PAN.UP, deltaTime)
   }
   if (keyIsDown(65)) {
-    sourceX -= panningSpeed
+    viewport.pan(ObservableViewport.PAN.LEFT, deltaTime)
   }
   if (keyIsDown(83)) {
-    sourceY += panningSpeed
+    viewport.pan(ObservableViewport.PAN.DOWN, deltaTime)
   }
   if (keyIsDown(68)) {
-    sourceX += panningSpeed
+    viewport.pan(ObservableViewport.PAN.RIGHT, deltaTime)
   }
 
   if (keyIsDown(90)) {
-    zoom += zoomSpeed
+    viewport.zoom(ObservableViewport.ZOOM.OUT, deltaTime)
   }
   if (keyIsDown(88)) {
-    zoom -= zoomSpeed
+    viewport.zoom(ObservableViewport.ZOOM.IN, deltaTime)
   }
-  zoom = constrain(zoom, 0.05, 1)
 }
+
