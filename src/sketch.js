@@ -1,8 +1,8 @@
 import ObservableViewport from "./Viewport"
 
-let cgol, pgA, pgB, viewport;
-const density = 50;
-let pause = false
+let cgol, bigBang, pgA, pgB, viewport;
+const density = 0.80;
+let pause = true
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
@@ -10,7 +10,8 @@ const pgACanvas = document.querySelector('#ping')
 const pgBCanvas = document.querySelector('#pong')
 
 window.preload = function () {
-  cgol = loadShader("src/cgol.vert", "src/cgol.frag");
+  cgol = loadShader("src/shaders/cgol.vert", "src/shaders/cgol.frag");
+  bigBang = loadShader("src/shaders/bigBang.vert", "src/shaders/bigBang.frag");
 }
 
 window.setup = function () {
@@ -22,7 +23,7 @@ window.setup = function () {
   pgA = createGraphics(viewport.width, viewport.height, WEBGL, pgACanvas);
   pgB = createGraphics(viewport.width, viewport.height, WEBGL, pgBCanvas);
 
-  bigBang(pgA, density)
+  applyBigBang()
 }
 
 window.draw = function () {
@@ -31,7 +32,7 @@ window.draw = function () {
   image(pgA.get(), 0, 0, width, height, viewport.panning.x, viewport.panning.y, viewport.observable.x, viewport.observable.y);
 
   if (!pause) {
-    step()
+    applyCgol()
   }
 }
 
@@ -43,44 +44,39 @@ window.keyTyped = function () {
   if (key === ' ') {
     pause = !pause
   }
-}
-
-function step() {
-  copyCgolToContext(pgA, pgB)
-  applyCgol()
-}
-
-function copyCgolToContext(pgA, pgB) {
-  const cgolCopy = cgol.copyToContext(pgB);
-
-  pgB.shader(cgolCopy);
-  cgolCopy.setUniform("normalRes", [
-    1.0 / pgB.width,
-    1.0 / pgB.height,
-  ]);
-  cgolCopy.setUniform("tex", pgA);
+  if (key === 'c') {
+    pgA.background(0)
+  }
+  if (key === 'r') {
+    applyBigBang()
+  }
 }
 
 function applyCgol() {
-  pgB.noStroke()
-  pgB.plane(viewport.width, viewport.height);
+  const cgolCopy = cgol.copyToContext(pgB)
+  pgB.shader(cgolCopy)
+  cgolCopy.setUniform("normalRes", [
+    1.0 / pgB.width,
+    1.0 / pgB.height,
+  ])
+  cgolCopy.setUniform("tex", pgA)
 
-  let temp = pgA;
-  pgA = pgB;
-  pgB = temp;
+  pgB.noStroke()
+  pgB.plane(pgB.width, pgB.height)
+
+  let temp = pgA
+  pgA = pgB
+  pgB = temp
 }
 
-function bigBang(pg, density) {
-  pg.loadPixels();
-  for (let i = 0; i < pg.width * pg.height; i++) {
-    const j = i * 4;
-    const val = Math.random() * 100 > density ? 0 : 255;
-    pg.pixels[j + 0] = val;
-    pg.pixels[j + 1] = val;
-    pg.pixels[j + 2] = val;
-    pg.pixels[j + 3] = 255;
-  }
-  pg.updatePixels();
+function applyBigBang() {
+  const bigBangCopy = bigBang.copyToContext(pgA)
+  pgA.shader(bigBangCopy)
+  bigBangCopy.setUniform("uResolution", [pgA.width, pgA.height])
+  bigBangCopy.setUniform("uDensity", density)
+
+  pgA.noStroke()
+  pgA.plane(pgA.width, pgA.height)
 }
 
 function controls() {
