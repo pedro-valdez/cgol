@@ -1,0 +1,18 @@
+<div class="fab fab-flower">
+    <!-- a focusable div with tabindex is necessary to work on all browsers. role="button" is necessary for accessibility -->
+    <div tabindex="0" role="button" class="btn btn-lg btn-circle">📜</div>
+
+    <!-- Close button replaces the original button when FAB is open -->
+    <div class="fab-close">
+        <span class="btn btn-circle btn-lg">❌</span>
+    </div>
+
+    <!-- buttons that show up when FAB is open -->
+    <button id="shortcuts-btn" class="menu-btn btn btn-lg btn-circle">
+        ⌨️
+    </button>
+    <button id="explanation-btn" class="menu-btn btn btn-lg btn-circle">
+        📖
+    </button>
+    <button id="settings-btn" class="menu-btn btn btn-lg btn-circle">⚙️</button>
+</div>
