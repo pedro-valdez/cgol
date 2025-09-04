@@ -6,6 +6,7 @@ let pause = true
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
+cgolCanvas.addEventListener('contextmenu', (e) => e.preventDefault())
 
 window.preload = function () {
   cgol = loadShader("src/shaders/cgol.vert", "src/shaders/cgol.frag");
@@ -56,6 +57,20 @@ window.keyTyped = function () {
   }
   if (key === 'r') {
     applyBigBang()
+  }
+}
+
+window.mousePressed = function () {
+  const viewportX = Math.floor(viewport.panning.x + mouseX * viewport.observable.x / width)
+  const viewportY = Math.floor(viewport.panning.y + mouseY * viewport.observable.y / height)
+
+  const cellColor = mouseButton === LEFT ? 255 : mouseButton === RIGHT ? 0 : undefined
+  if (cellColor !== undefined) {
+    bufferA.begin()
+    noStroke()
+    fill(cellColor)
+    square(viewportX - viewport.width / 2, viewportY - viewport.height / 2, 1)
+    bufferA.end()
   }
 }
 
