@@ -1,13 +1,11 @@
 import ObservableViewport from "./Viewport"
 
-let cgol, bigBang, pgA, pgB, viewport;
+let cgol, bigBang, bufferA, bufferB, viewport;
 const density = 0.80;
 let pause = true
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
-const pgACanvas = document.querySelector('#ping')
-const pgBCanvas = document.querySelector('#pong')
 
 window.preload = function () {
   cgol = loadShader("src/shaders/cgol.vert", "src/shaders/cgol.frag");
@@ -15,13 +13,20 @@ window.preload = function () {
 }
 
 window.setup = function () {
-  createCanvas(container.clientWidth, container.clientHeight, undefined, cgolCanvas)
-  noSmooth()
+  createCanvas(container.clientWidth, container.clientHeight, WEBGL, cgolCanvas)
 
   viewport = new ObservableViewport(width, height)
 
-  pgA = createGraphics(viewport.width, viewport.height, WEBGL, pgACanvas);
-  pgB = createGraphics(viewport.width, viewport.height, WEBGL, pgBCanvas);
+  bufferA = createFramebuffer({
+    width: viewport.width,
+    height: viewport.height,
+    textureFiltering: NEAREST,
+  })
+  bufferB = createFramebuffer({
+    width: viewport.width,
+    height: viewport.height,
+    textureFiltering: NEAREST,
+  })
 
   applyBigBang()
 }
@@ -29,7 +34,7 @@ window.setup = function () {
 window.draw = function () {
   controls()
 
-  image(pgA.get(), 0, 0, width, height, viewport.panning.x, viewport.panning.y, viewport.observable.x, viewport.observable.y);
+  image(bufferA, -width / 2, -height / 2, width, height, viewport.panning.x, viewport.panning.y, viewport.observable.x, viewport.observable.y);
 
   if (!pause) {
     applyCgol()
@@ -45,7 +50,9 @@ window.keyTyped = function () {
     pause = !pause
   }
   if (key === 'c') {
-    pgA.background(0)
+    bufferA.begin()
+    background(0)
+    bufferA.end()
   }
   if (key === 'r') {
     applyBigBang()
@@ -53,30 +60,36 @@ window.keyTyped = function () {
 }
 
 function applyCgol() {
-  const cgolCopy = cgol.copyToContext(pgB)
-  pgB.shader(cgolCopy)
-  cgolCopy.setUniform("normalRes", [
-    1.0 / pgB.width,
-    1.0 / pgB.height,
+  shader(cgol)
+  cgol.setUniform("normalRes", [
+    1.0 / viewport.width,
+    1.0 / viewport.height,
   ])
-  cgolCopy.setUniform("tex", pgA)
+  cgol.setUniform("tex", bufferA)
 
-  pgB.noStroke()
-  pgB.plane(pgB.width, pgB.height)
+  bufferB.begin()
+  noStroke()
+  plane(viewport.width, viewport.height)
+  bufferB.end()
 
-  let temp = pgA
-  pgA = pgB
-  pgB = temp
+  let temp = bufferA
+  bufferA = bufferB
+  bufferB = temp
+
+  resetShader()
 }
 
 function applyBigBang() {
-  const bigBangCopy = bigBang.copyToContext(pgA)
-  pgA.shader(bigBangCopy)
-  bigBangCopy.setUniform("uResolution", [pgA.width, pgA.height])
-  bigBangCopy.setUniform("uDensity", density)
+  shader(bigBang)
+  bigBang.setUniform("uResolution", [viewport.width, viewport.height])
+  bigBang.setUniform("uDensity", density)
 
-  pgA.noStroke()
-  pgA.plane(pgA.width, pgA.height)
+  bufferA.begin()
+  noStroke()
+  plane(viewport.width, viewport.height)
+  bufferA.end()
+
+  resetShader()
 }
 
 function controls() {
