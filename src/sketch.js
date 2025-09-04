@@ -58,6 +58,9 @@ window.keyTyped = function () {
   if (key === 'r') {
     applyBigBang()
   }
+  if (key === 'n' && pause) {
+    applyCgol()
+  }
 }
 
 window.mousePressed = function () {
