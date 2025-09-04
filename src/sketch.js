@@ -3,6 +3,7 @@ import ObservableViewport from "./Viewport"
 let cgol, bigBang, bufferA, bufferB, viewport;
 const density = 0.80;
 let pause = true
+let simulationDeltaTime = 0, simulationDelay = 64
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
@@ -33,12 +34,15 @@ window.setup = function () {
 }
 
 window.draw = function () {
+  simulationDeltaTime += deltaTime
+
   controls()
 
   image(bufferA, -width / 2, -height / 2, width, height, viewport.panning.x, viewport.panning.y, viewport.observable.x, viewport.observable.y);
 
-  if (!pause) {
+  if (!pause && simulationDeltaTime >= simulationDelay) {
     applyCgol()
+    simulationDeltaTime = 0
   }
 }
 
