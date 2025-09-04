@@ -84,6 +84,13 @@ window.keyTyped = function () {
 }
 
 window.mousePressed = function () {
+    modifyCell()
+}
+window.mouseDragged = function () {
+    modifyCell()
+}
+
+function modifyCell() {
     const viewportX = Math.floor(
         viewport.panning.x + (mouseX * viewport.observable.x) / width
     )
