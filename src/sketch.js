@@ -159,9 +159,9 @@ function controls() {
     }
 
     if (keyIsDown(90)) {
-        viewport.zoom(ObservableViewport.ZOOM.OUT, deltaTime)
+        viewport.zoom(ObservableViewport.ZOOM.IN, deltaTime)
     }
     if (keyIsDown(88)) {
-        viewport.zoom(ObservableViewport.ZOOM.IN, deltaTime)
+        viewport.zoom(ObservableViewport.ZOOM.OUT, deltaTime)
     }
 }
