@@ -5,6 +5,7 @@ const density = 0.8
 let pause = true
 let simulationDeltaTime = 0,
     simulationDelay = 64
+let brushThickness = 3
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
@@ -84,6 +85,13 @@ window.keyTyped = function () {
 }
 
 window.mousePressed = function () {
+    modifyCell()
+}
+window.mouseDragged = function () {
+    modifyCell()
+}
+
+function modifyCell() {
     const viewportX = Math.floor(
         viewport.panning.x + (mouseX * viewport.observable.x) / width
     )
@@ -100,7 +108,7 @@ window.mousePressed = function () {
         square(
             viewportX - viewport.width / 2,
             viewportY - viewport.height / 2,
-            1
+            brushThickness
         )
         bufferA.end()
     }
