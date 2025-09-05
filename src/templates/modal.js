@@ -1,3 +1,4 @@
+import { synchronizeInputPairs } from './menu/settings'
 import modalHtml from './modal.html?raw'
 
 function getModal() {
@@ -32,6 +33,10 @@ function hydrateModalContent(id) {
     const modalContent = modal.querySelector('#modal-content')
 
     modalContent.replaceChildren(template.content.cloneNode(true))
+
+    if (id === 'settings') {
+        synchronizeInputPairs(modalContent)
+    }
 }
 
 export function showModal(id) {

@@ -8,11 +8,17 @@
     <li class="list-row col-span-2 grid grid-cols-subgrid">
         <label class="label" for="zoom-speed-a zoom-speed-b">Zoom speed</label>
         <div class="flex gap-x-3 items-center">
-            <input id="zoom-speed-a" class="range" type="range" />
+            <input
+                id="zoom-speed-a"
+                class="range"
+                type="range"
+                data-synchronize="zoom-speed"
+            />
             <input
                 id="zoom-speed-b"
                 class="input input-xs w-12 no-spinner"
                 type="number"
+                data-synchronize="zoom-speed"
             />
         </div>
     </li>
@@ -22,11 +28,17 @@
             Panning speed
         </label>
         <div class="flex gap-x-3 items-center">
-            <input id="panning-speed-a" class="range" type="range" />
+            <input
+                id="panning-speed-a"
+                class="range"
+                type="range"
+                data-synchronize="panning-speed"
+            />
             <input
                 id="panning-speed-b"
                 class="input input-xs w-12 no-spinner"
                 type="number"
+                data-synchronize="panning-speed"
             />
         </div>
     </li>
