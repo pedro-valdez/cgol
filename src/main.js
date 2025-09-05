@@ -11,8 +11,9 @@ document.querySelector('#app').innerHTML = `
 `
 
 const modalContentFiles = import.meta.glob('./templates/menu/*', {
+    import: 'default',
     eager: true,
-    as: 'raw',
+    query: '?raw',
 })
 const modalContentByFile = Object.fromEntries(
     Object.entries(modalContentFiles).map(([path, content]) => {
