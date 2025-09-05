@@ -1,0 +1,202 @@
+<div class="flex justify-between items-center">
+    <h3 class="text-lg font-bold">Explanation</h3>
+    <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost">✕</button>
+    </form>
+</div>
+<ul class="list">
+    <li class="list-row">
+        <div class="carousel rounded-box size-32">
+            <div id="neighbor-1" class="carousel-item w-full relative">
+                <img src="/single_cell.png" class="w-full" />
+                <div
+                    class="absolute right-1 top-1/2 transform -translate-y-1/2"
+                >
+                    <a
+                        href="#neighbor-2"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❯</a
+                    >
+                </div>
+            </div>
+            <div id="neighbor-2" class="carousel-item w-full relative">
+                <img src="/neighbors.png" class="w-full" />
+                <div class="absolute left-1 top-1/2 transform -translate-y-1/2">
+                    <a
+                        href="#neighbor-1"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❮</a
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="[&>p+p]:mt-1.5">
+            <h4
+                class="text-md font-bold inline-block px-1.5 pb-0.5 mb-2 border-b border-b-1 border-base-content/5"
+            >
+                Grid
+            </h4>
+            <p>
+                1. The game takes palce on a grid of cells. A cell has 8
+                neighbors.
+            </p>
+            <p>2. The cells in gray are the neighbors of the cell in white.</p>
+        </div>
+    </li>
+    <li class="list-row">
+        <div class="carousel rounded-box size-32">
+            <div id="survival-1" class="carousel-item w-full relative">
+                <img src="/survival.png" class="w-full" />
+                <div
+                    class="absolute right-1 top-1/2 transform -translate-y-1/2"
+                >
+                    <a
+                        href="#survival-2"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❯</a
+                    >
+                </div>
+            </div>
+            <div id="survival-2" class="carousel-item w-full relative">
+                <img src="/single_cell.png" class="w-full" />
+                <div class="absolute left-1 top-1/2 transform -translate-y-1/2">
+                    <a
+                        href="#survival-1"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❮</a
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="[&>p+p]:mt-1.5">
+            <h4
+                class="text-md font-bold inline-block px-1.5 pb-0.5 mb-2 border-b border-b-1 border-base-content/5"
+            >
+                Rule of Survival
+            </h4>
+            <p>1. A cell with 2 or 3 live neighbors survives.</p>
+            <p>2. The cell in the middle survives.</p>
+        </div>
+    </li>
+    <li class="list-row">
+        <div class="carousel rounded-box size-32">
+            <div class="carousel-item w-full relative">
+                <img id="abundance-1" src="/abundance.png" class="w-full" />
+                <div
+                    class="absolute right-1 top-1/2 transform -translate-y-1/2"
+                >
+                    <a
+                        href="#abundance-2"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❯</a
+                    >
+                </div>
+            </div>
+            <div class="carousel-item w-full relative">
+                <img id="abundance-2" src="/single_cell.png" class="w-full" />
+                <div class="absolute left-1 top-1/2 transform -translate-y-1/2">
+                    <a
+                        href="#abundance-1"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❮</a
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="[&>p+p]:mt-1.5">
+            <h4
+                class="text-md font-bold inline-block px-1.5 pb-0.5 mb-2 border-b border-b-1 border-base-content/5"
+            >
+                Rule of Abundance
+            </h4>
+            <p>1. A dead cell with 3 live neighbors revives.</p>
+            <p>2. The cell in the middle revives.</p>
+        </div>
+    </li>
+    <li class="list-row">
+        <div class="carousel rounded-box size-32">
+            <div class="carousel-item w-full relative">
+                <img
+                    id="overabundance-1"
+                    src="/overabundance.png"
+                    class="w-full"
+                />
+                <div
+                    class="absolute right-1 top-1/2 transform -translate-y-1/2"
+                >
+                    <a
+                        href="#overabundance-2"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❯</a
+                    >
+                </div>
+            </div>
+            <div class="carousel-item w-full relative">
+                <img
+                    id="overabundance-2"
+                    src="/overabundance2.png"
+                    class="w-full"
+                />
+                <div class="absolute left-1 top-1/2 transform -translate-y-1/2">
+                    <a
+                        href="#overabundance-1"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❮</a
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="[&>p+p]:mt-1.5">
+            <h4
+                class="text-md font-bold inline-block px-1.5 pb-0.5 mb-2 border-b border-b-1 border-base-content/5"
+            >
+                Rule of Overabundance
+            </h4>
+            <p>1. A cell with more than 3 neighbors dies.</p>
+            <p>2. The cell in the middle dies.</p>
+        </div>
+    </li>
+    <li class="list-row">
+        <div class="carousel rounded-box size-32">
+            <div class="carousel-item w-full relative">
+                <img
+                    id="underabundance-1"
+                    src="/underabundance.png"
+                    class="w-full"
+                />
+                <div
+                    class="absolute right-1 top-1/2 transform -translate-y-1/2"
+                >
+                    <a
+                        href="#underabundance-2"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❯</a
+                    >
+                </div>
+            </div>
+            <div class="carousel-item w-full relative">
+                <img
+                    id="underabundance-2"
+                    src="/underabundance2.png"
+                    class="w-full"
+                />
+                <div class="absolute left-1 top-1/2 transform -translate-y-1/2">
+                    <a
+                        href="#underabundance-1"
+                        class="btn btn-xs btn-circle btn-ghost"
+                        >❮</a
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="[&>p+p]:mt-1.5">
+            <h4
+                class="text-md font-bold inline-block px-1.5 pb-0.5 mb-2 border-b border-b-1 border-base-content/5"
+            >
+                Rule of Underabundance
+            </h4>
+            <p>1. A cell with less than 2 dies.</p>
+            <p>2. The cell in the middle dies.</p>
+        </div>
+    </li>
+</ul>
