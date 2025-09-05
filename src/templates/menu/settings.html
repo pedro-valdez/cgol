@@ -1,0 +1,53 @@
+<div class="flex justify-between items-center">
+    <h3 class="text-lg font-bold">Settings</h3>
+    <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost">✕</button>
+    </form>
+</div>
+<ul class="list grid grid-cols-[auto_1fr]">
+    <li class="list-row col-span-2 grid grid-cols-subgrid">
+        <label class="label" for="zoom-speed-a zoom-speed-b">Zoom speed</label>
+        <div class="flex gap-x-3 items-center">
+            <input id="zoom-speed-a" class="range" type="range" />
+            <input
+                id="zoom-speed-b"
+                class="input input-xs w-12 no-spinner"
+                type="number"
+            />
+        </div>
+    </li>
+
+    <li class="list-row col-span-2 grid grid-cols-subgrid">
+        <label class="label" for="panning-speed-a panning-speed-b">
+            Panning speed
+        </label>
+        <div class="flex gap-x-3 items-center">
+            <input id="panning-speed-a" class="range" type="range" />
+            <input
+                id="panning-speed-b"
+                class="input input-xs w-12 no-spinner"
+                type="number"
+            />
+        </div>
+    </li>
+
+    <li class="list-row col-span-2 grid grid-cols-subgrid">
+        <label class="label" for="simulation-width simulation-height">
+            Simulation dimensions
+        </label>
+        <div class="flex gap-x-4">
+            <label class="input input-xs">
+                <span class="label">Width</span>
+                <input id="simulation-width" type="number" class="no-spinner" />
+            </label>
+            <label class="input input-xs">
+                <span class="label">Height</span>
+                <input
+                    id="simulation-height"
+                    type="number"
+                    class="no-spinner"
+                />
+            </label>
+        </div>
+    </li>
+</ul>
