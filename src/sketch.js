@@ -41,26 +41,10 @@ window.setup = function () {
 }
 
 window.draw = function () {
-    simulationDeltaTime += deltaTime
-
     controls()
 
-    image(
-        bufferA,
-        -width / 2,
-        -height / 2,
-        width,
-        height,
-        viewport.panning.x,
-        viewport.panning.y,
-        viewport.observable.x,
-        viewport.observable.y
-    )
-
-    if (!pause && simulationDeltaTime >= simulationDelay) {
-        applyCgol()
-        simulationDeltaTime = 0
-    }
+    drawLife()
+    drawGrid()
 }
 
 window.windowResized = function () {
@@ -89,6 +73,28 @@ window.mousePressed = function () {
 }
 window.mouseDragged = function () {
     modifyCell()
+}
+
+function controls() {
+    if (keyIsDown(87)) {
+        viewport.pan(ObservableViewport.PAN.UP, deltaTime)
+    }
+    if (keyIsDown(65)) {
+        viewport.pan(ObservableViewport.PAN.LEFT, deltaTime)
+    }
+    if (keyIsDown(83)) {
+        viewport.pan(ObservableViewport.PAN.DOWN, deltaTime)
+    }
+    if (keyIsDown(68)) {
+        viewport.pan(ObservableViewport.PAN.RIGHT, deltaTime)
+    }
+
+    if (keyIsDown(90)) {
+        viewport.zoom(ObservableViewport.ZOOM.IN, deltaTime)
+    }
+    if (keyIsDown(88)) {
+        viewport.zoom(ObservableViewport.ZOOM.OUT, deltaTime)
+    }
 }
 
 function modifyCell() {
@@ -144,24 +150,50 @@ function applyBigBang() {
     resetShader()
 }
 
-function controls() {
-    if (keyIsDown(87)) {
-        viewport.pan(ObservableViewport.PAN.UP, deltaTime)
+function drawLife() {
+    // NOTE: Must be called every frame
+    simulationDeltaTime += deltaTime
+
+    push()
+    translate(0, 0, -1)
+    image(
+        bufferA,
+        -width / 2,
+        -height / 2,
+        width,
+        height,
+        viewport.panning.x,
+        viewport.panning.y,
+        viewport.observable.x,
+        viewport.observable.y
+    )
+    pop()
+
+    if (!pause && simulationDeltaTime >= simulationDelay) {
+        applyCgol()
+        simulationDeltaTime = 0
     }
-    if (keyIsDown(65)) {
-        viewport.pan(ObservableViewport.PAN.LEFT, deltaTime)
-    }
-    if (keyIsDown(83)) {
-        viewport.pan(ObservableViewport.PAN.DOWN, deltaTime)
-    }
-    if (keyIsDown(68)) {
-        viewport.pan(ObservableViewport.PAN.RIGHT, deltaTime)
+}
+
+function drawGrid() {
+    if (viewport.zoomScalar > 0.125) return
+
+    stroke(255)
+    strokeWeight(1)
+
+    const cellSize = width / viewport.observable.x
+    const offsetX = viewport.panning.x * cellSize
+    const offsetY = viewport.panning.y * cellSize
+
+    for (let i = cellSize - offsetX; i < width; i += cellSize) {
+        const x = i - width / 2
+        const y = height / 2
+        line(x, y, x, -y)
     }
 
-    if (keyIsDown(90)) {
-        viewport.zoom(ObservableViewport.ZOOM.IN, deltaTime)
-    }
-    if (keyIsDown(88)) {
-        viewport.zoom(ObservableViewport.ZOOM.OUT, deltaTime)
+    for (let i = cellSize - offsetY; i < height; i += cellSize) {
+        const x = width / 2
+        const y = i - height / 2
+        line(-x, y, x, y)
     }
 }

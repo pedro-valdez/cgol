@@ -1,6 +1,6 @@
 class ObservableViewport {
     // NOTE: Should this be static?
-    static minimumObservableLength = 64
+    static minimumObservableLength = 32
     static ZOOM = {
         IN: -1,
         OUT: 1,
