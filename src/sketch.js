@@ -1,11 +1,33 @@
+import Settings from './Settings'
 import ObservableViewport from './Viewport'
 
 let cgol, bigBang, bufferA, bufferB, viewport
-const density = 0.8
+const density = Settings.ensure(
+    'density',
+    (v) => {
+        density = v
+    },
+    0.8
+)
 let pause = true
 let simulationDeltaTime = 0,
-    simulationDelay = 64
-let brushThickness = 3
+    simulationDelay = Settings.ensure(
+        'simulationDelay',
+        (v) => {
+            simulationDelay = v
+        },
+        32
+    )
+let brushThickness = Settings.ensure(
+    'brushThickness',
+    (v) => (brushThickness = v),
+    1
+)
+let minimumZoomForGrid = Settings.ensure(
+    'minimumZoomForGrid',
+    (v) => (minimumZoomForGrid = v),
+    0.125
+)
 
 const container = document.querySelector('#cgol-container')
 const cgolCanvas = document.querySelector('#cgol')
@@ -176,7 +198,7 @@ function drawLife() {
 }
 
 function drawGrid() {
-    if (viewport.zoomScalar > 0.125) return
+    if (viewport.zoomScalar > minimumZoomForGrid) return
 
     stroke(255)
     strokeWeight(1)
@@ -197,3 +219,5 @@ function drawGrid() {
         line(-x, y, x, y)
     }
 }
+
+console.log(Settings.settings)

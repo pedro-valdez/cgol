@@ -1,6 +1,14 @@
+import Settings from './Settings'
+
 class ObservableViewport {
     // NOTE: Should this be static?
-    static minimumObservableLength = 32
+    static minimumObservableLength = Settings.ensure(
+        'minimumObservableLength',
+        (v) => {
+            ObservableViewport.minimumObservableLength = v
+        },
+        32
+    )
     static ZOOM = {
         IN: -1,
         OUT: 1,
@@ -14,17 +22,41 @@ class ObservableViewport {
     }
 
     constructor(ratioX, ratioY, width = 1024, height = 1024) {
-        this.width = width
-        this.height = height
+        this.width = Settings.ensure(
+            'width',
+            (v) => {
+                this.width = v
+            },
+            width
+        )
+        this.height = Settings.ensure(
+            'height',
+            (v) => {
+                this.height = v
+            },
+            height
+        )
         this.minorAxisLength = min(this.width, this.height)
 
         this.zoomScalar = 1
-        this.zoomSpeed = 1
+        this.zoomSpeed = Settings.ensure(
+            'zoomSpeed',
+            (v) => {
+                this.zoomSpeed = v
+            },
+            0.8
+        )
         this.minimumZoomScalar =
             ObservableViewport.minimumObservableLength / this.minorAxisLength
 
         this.panning = createVector(0, 0)
-        this.panningSpeed = 1
+        this.panningSpeed = Settings.ensure(
+            'panningSpeed',
+            (v) => {
+                this.panningSpeed = v
+            },
+            1
+        )
 
         // TODO: `this.zoomScalar * this.minorAxisLength` should be it's own term.
         // TODO: This calculation is repeated in `zoom()`
