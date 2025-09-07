@@ -69,7 +69,9 @@ class ObservableViewport {
 
     pan(direction, dt) {
         const unitBasis = createVector(...direction)
-        this.panning.add(unitBasis.mult(this.panningSpeed * dt))
+        this.panning.add(
+            unitBasis.mult(this.panningSpeed * this.zoomScalar * dt)
+        )
 
         this.constrainPanning()
     }
