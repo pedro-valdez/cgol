@@ -59,6 +59,39 @@ window.setup = function () {
         textureFiltering: NEAREST,
     })
 
+    Settings.ensure(
+        'width',
+        (v) => {
+            viewport = new ObservableViewport(
+                viewport.observable.x,
+                viewport.observable.y,
+                v,
+                viewport.height
+            )
+            bufferA.resize(v, viewport.height)
+            bufferB.resize(v, viewport.height)
+
+            applyBigBang()
+        },
+        1024
+    )
+    Settings.ensure(
+        'height',
+        (v) => {
+            viewport = new ObservableViewport(
+                viewport.observable.x,
+                viewport.observable.y,
+                viewport.width,
+                v
+            )
+            bufferA.resize(viewport.width, v)
+            bufferB.resize(viewport.width, v)
+
+            applyBigBang()
+        },
+        1024
+    )
+
     applyBigBang()
 }
 
@@ -71,6 +104,12 @@ window.draw = function () {
 
 window.windowResized = function () {
     resizeCanvas(container.clientWidth, container.clientHeight)
+    viewport = new ObservableViewport(
+        width,
+        height,
+        viewport.width,
+        viewport.height
+    )
 }
 
 window.keyTyped = function () {
@@ -219,5 +258,3 @@ function drawGrid() {
         line(-x, y, x, y)
     }
 }
-
-console.log(Settings.settings)
