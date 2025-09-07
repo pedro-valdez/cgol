@@ -34,8 +34,8 @@ const cgolCanvas = document.querySelector('#cgol')
 cgolCanvas.addEventListener('contextmenu', (e) => e.preventDefault())
 
 window.preload = function () {
-    cgol = loadShader('src/shaders/cgol.vert', 'src/shaders/cgol.frag')
-    bigBang = loadShader('src/shaders/bigBang.vert', 'src/shaders/bigBang.frag')
+    cgol = loadShader('/shaders/cgol.vert', '/shaders/cgol.frag')
+    bigBang = loadShader('/shaders/bigBang.vert', '/shaders/bigBang.frag')
 }
 
 window.setup = function () {
