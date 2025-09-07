@@ -1,12 +1,11 @@
-body {
-  margin: 0;
-}
+@import 'tailwindcss';
+@plugin 'daisyui';
 
 #cgol-container {
-  width: 100vw;
-  height: 100vh;
+    width: 100vw;
+    height: 100vh;
 }
 
 #cgol {
-  display: block;
+    display: block;
 }
