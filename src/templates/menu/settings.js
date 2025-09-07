@@ -14,7 +14,7 @@ export function settingsSubmit(container) {
         const data = new FormData(e.target)
 
         data.entries().forEach(([name, value]) => {
-            Settings.change(name, value)
+            Settings.change(name, +value)
         })
     })
 }
