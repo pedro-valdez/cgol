@@ -1,4 +1,4 @@
-import { synchronizeInputPairs } from './menu/settings'
+import { settingsSubmit } from './menu/settings'
 import modalHtml from './modal.html?raw'
 
 function getModal() {
@@ -35,7 +35,7 @@ function hydrateModalContent(id) {
     modalContent.replaceChildren(template.content.cloneNode(true))
 
     if (id === 'settings') {
-        synchronizeInputPairs(modalContent)
+        settingsSubmit(modalContent)
     }
 }
 

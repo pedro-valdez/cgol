@@ -1,21 +1,20 @@
-function synchronizeInputPair(container = document, id) {
-    const inputs = container.querySelectorAll(`input[data-synchronize="${id}"]`)
-    const inputA = inputs[0]
-    const inputB = inputs[1]
+import Settings from '../../Settings'
 
-    inputA.addEventListener('input', (e) => {
-        inputB.value = e.target.value
+export function settingsSubmit(container) {
+    const form = container.querySelector('#settings-form')
+    const inputs = form.querySelectorAll('input[name]')
+
+    inputs.forEach((el) => {
+        el.value = Settings.get(el.name)
     })
-    inputB.addEventListener('input', (e) => {
-        inputA.value = e.target.value
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        const data = new FormData(e.target)
+
+        data.entries().forEach(([name, value]) => {
+            Settings.change(name, value)
+        })
     })
-}
-
-export function synchronizeInputPairs(container = document) {
-    const inputs = container.querySelectorAll('[data-synchronize]')
-    const uniqueSynchronize = new Set(
-        Array.from(inputs, (i) => i.dataset.synchronize)
-    )
-
-    uniqueSynchronize.forEach((id) => synchronizeInputPair(container, id))
 }

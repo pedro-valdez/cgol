@@ -2,7 +2,7 @@ import Settings from './Settings'
 import ObservableViewport from './Viewport'
 
 let cgol, bigBang, bufferA, bufferB, viewport
-const density = Settings.ensure(
+let density = Settings.ensure(
     'density',
     (v) => {
         density = v

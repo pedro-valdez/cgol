@@ -32,6 +32,10 @@ export default class Settings {
         return setting.value
     }
 
+    static get(key) {
+        return Settings.#settings[key]?.value
+    }
+
     static change(key, value) {
         const setting = Settings.#settings[key]
 

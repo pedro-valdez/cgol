@@ -4,62 +4,133 @@
         <button class="btn btn-sm btn-circle btn-ghost">✕</button>
     </form>
 </div>
-<ul class="list grid grid-cols-[auto_1fr]">
-    <li class="list-row col-span-2 grid grid-cols-subgrid">
-        <label class="label" for="zoom-speed-a zoom-speed-b">Zoom speed</label>
-        <div class="flex gap-x-3 items-center">
+<form id="settings-form">
+    <ul
+        class="list grid grid-cols-[auto_1fr] *:grid *:grid-cols-subgrid *:col-span-2"
+    >
+        <li class="list-row">
+            <label class="label">Panning speed</label>
             <input
-                id="zoom-speed-a"
-                class="range"
-                type="range"
-                data-synchronize="zoom-speed"
-            />
-            <input
-                id="zoom-speed-b"
-                class="input input-xs w-12 no-spinner"
+                class="input"
+                id="panning-speed"
                 type="number"
-                data-synchronize="zoom-speed"
+                min="0.001"
+                step="0.001"
+                required
+                name="panningSpeed"
             />
-        </div>
-    </li>
+        </li>
 
-    <li class="list-row col-span-2 grid grid-cols-subgrid">
-        <label class="label" for="panning-speed-a panning-speed-b">
-            Panning speed
-        </label>
-        <div class="flex gap-x-3 items-center">
+        <li class="list-row">
+            <label class="label">Zoom speed</label>
             <input
-                id="panning-speed-a"
-                class="range"
-                type="range"
-                data-synchronize="panning-speed"
-            />
-            <input
-                id="panning-speed-b"
-                class="input input-xs w-12 no-spinner"
+                class="input"
+                id="zoom-speed"
                 type="number"
-                data-synchronize="panning-speed"
+                min="0.001"
+                step="0.001"
+                required
+                name="zoomSpeed"
             />
-        </div>
-    </li>
+        </li>
 
-    <li class="list-row col-span-2 grid grid-cols-subgrid">
-        <label class="label" for="simulation-width simulation-height">
-            Simulation dimensions
-        </label>
-        <div class="flex gap-x-4">
-            <label class="input input-xs">
-                <span class="label">Width</span>
-                <input id="simulation-width" type="number" class="no-spinner" />
-            </label>
-            <label class="input input-xs">
-                <span class="label">Height</span>
-                <input
-                    id="simulation-height"
-                    type="number"
-                    class="no-spinner"
-                />
-            </label>
-        </div>
-    </li>
-</ul>
+        <li class="list-row">
+            <label class="label">Grid zoom level</label>
+            <input
+                class="input"
+                id="grid-zoom-level"
+                type="number"
+                min="0.001"
+                max="1"
+                step="0.001"
+                required
+                name="minimumZoomForGrid"
+            />
+        </li>
+
+        <li class="list-row">
+            <label class="label">Minimum viewport width</label>
+            <input
+                class="input"
+                id="minimum-viewport-width"
+                type="number"
+                min="32"
+                step="1"
+                required
+                name="minimumObservableLength"
+            />
+        </li>
+
+        <li class="list-row">
+            <label class="label">Simulation width</label>
+            <input
+                class="input"
+                id="simulation-width"
+                type="number"
+                min="32"
+                step="1"
+                required
+                name="width"
+                disabled
+            />
+        </li>
+
+        <li class="list-row">
+            <label class="label">Simulation height</label>
+            <input
+                class="input"
+                id="simulation-height"
+                type="number"
+                min="32"
+                step="1"
+                required
+                name="height"
+                disabled
+            />
+        </li>
+
+        <li class="list-row">
+            <label class="label">Simulation density</label>
+            <input
+                class="input"
+                id="simulation-density"
+                type="number"
+                min="0.001"
+                max="1"
+                step="0.001"
+                required
+                name="density"
+            />
+        </li>
+
+        <li class="list-row">
+            <label class="label">Simulation delay</label>
+            <input
+                class="input"
+                id="simulation-delay"
+                type="number"
+                min="1"
+                step="1"
+                required
+                name="simulationDelay"
+            />
+        </li>
+
+        <li class="list-row">
+            <label class="label">Brush thickness</label>
+            <input
+                class="input"
+                id="brush-thickness"
+                type="number"
+                min="1"
+                step="1"
+                required
+                name="brushThickness"
+            />
+        </li>
+    </ul>
+
+    <div class="flex justify-end mt-4">
+        <button type="submit" class="btn">Save</button>
+    </div>
+</form>
