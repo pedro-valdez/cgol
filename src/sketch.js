@@ -48,6 +48,7 @@ window.setup = function () {
         WEBGL,
         cgolCanvas
     )
+    pixelDensity(1)
 
     viewport = new ObservableViewport(width, height)
 
@@ -56,11 +57,14 @@ window.setup = function () {
         height: viewport.height,
         textureFiltering: NEAREST,
     })
+    bufferA.pixelDensity(1)
+
     bufferB = createFramebuffer({
         width: viewport.width,
         height: viewport.height,
         textureFiltering: NEAREST,
     })
+    bufferB.pixelDensity(1)
 
     Settings.ensure(
         'width',
@@ -116,6 +120,8 @@ window.windowResized = function () {
 }
 
 window.keyTyped = function () {
+    if (!isMouseOnCanvas()) return
+
     if (key === ' ') {
         pause = !pause
     }
@@ -133,10 +139,18 @@ window.keyTyped = function () {
 }
 
 window.mousePressed = function () {
+    if (!isMouseOnCanvas()) return
+
     modifyCell()
 }
 window.mouseDragged = function () {
+    if (e.target !== cgolCanvas) return
+
     modifyCell()
+}
+
+function isMouseOnCanvas() {
+    return document.elementFromPoint(mouseX, mouseY) === cgolCanvas
 }
 
 function controls() {
@@ -205,6 +219,7 @@ function applyBigBang() {
     shader(bigBang)
     bigBang.setUniform('uResolution', [viewport.width, viewport.height])
     bigBang.setUniform('uDensity', density)
+    bigBang.setUniform('uSeed', Math.random() * 1000)
 
     bufferA.begin()
     noStroke()
