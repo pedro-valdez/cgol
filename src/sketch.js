@@ -116,6 +116,8 @@ window.windowResized = function () {
 }
 
 window.keyTyped = function () {
+    if (!isMouseOnCanvas()) return
+
     if (key === ' ') {
         pause = !pause
     }
@@ -133,10 +135,18 @@ window.keyTyped = function () {
 }
 
 window.mousePressed = function () {
+    if (!isMouseOnCanvas()) return
+
     modifyCell()
 }
 window.mouseDragged = function () {
+    if (e.target !== cgolCanvas) return
+
     modifyCell()
+}
+
+function isMouseOnCanvas() {
+    return document.elementFromPoint(mouseX, mouseY) === cgolCanvas
 }
 
 function controls() {
