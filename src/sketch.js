@@ -219,6 +219,7 @@ function applyBigBang() {
     shader(bigBang)
     bigBang.setUniform('uResolution', [viewport.width, viewport.height])
     bigBang.setUniform('uDensity', density)
+    bigBang.setUniform('uSeed', Math.random() * 1000)
 
     bufferA.begin()
     noStroke()
