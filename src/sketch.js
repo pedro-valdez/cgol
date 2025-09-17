@@ -48,6 +48,7 @@ window.setup = function () {
         WEBGL,
         cgolCanvas
     )
+    pixelDensity(1)
 
     viewport = new ObservableViewport(width, height)
 
@@ -56,11 +57,14 @@ window.setup = function () {
         height: viewport.height,
         textureFiltering: NEAREST,
     })
+    bufferA.pixelDensity(1)
+
     bufferB = createFramebuffer({
         width: viewport.width,
         height: viewport.height,
         textureFiltering: NEAREST,
     })
+    bufferB.pixelDensity(1)
 
     Settings.ensure(
         'width',
